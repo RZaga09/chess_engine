@@ -27,6 +27,27 @@ col_notation = {  # translates to column
     "b": 1,
     "a": 0,
 }
+row_comp = {  # translates row to array position
+    7: '1',
+    6: '2',
+    5: '3',
+    4: '4',
+    3: '5',
+    2: '6',
+    1: '7',
+    0: '8',
+}
+
+col_comp = {  # translates column to array position
+    7: 'h',
+    6: 'g',
+    5: 'f',
+    4: 'e',
+    3: 'd',
+    2: 'c',
+    1: 'b',
+    0: 'a',
+}
 
 
 def starting_posiion():  # arranges starting position
@@ -71,13 +92,133 @@ def move_to(pos_from):
     if board[row_notation.get(pos_to[1])][col_notation.get(pos_to[0])] != " ":
         print("Move not valid")
         move_to(pos_from)
+
+    # if piece is a knight
+    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'N' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'n':
+        possible_moves = [
+            str(col_comp.get((col_notation.get(
+                pos_from[0])) - 2)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
+            str(col_comp.get((col_notation.get(
+                pos_from[0])) - 2)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)),
+            str(col_comp.get((col_notation.get(
+                pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
+            str(col_comp.get((col_notation.get(
+                pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 2)),
+            str(col_comp.get((col_notation.get(
+                pos_from[0])) + 2)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)),
+            str(col_comp.get((col_notation.get(
+                pos_from[0])) + 2)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
+            str(col_comp.get((col_notation.get(
+                pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 2)),
+            str(col_comp.get((col_notation.get(
+                pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
+        ]
+
+        if pos_to not in possible_moves:
+            print("Move not valid")
+            move_to(pos_from)
+
+    # if piece is a bishop
+    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'B' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'b':
+        possible_moves = []
+
+        for i in range(1, 8):
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) + i)) + str(row_comp.get((row_notation.get(pos_from[1])) + i)))
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) - i)) + str(row_comp.get((row_notation.get(pos_from[1])) - i)))
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) + i)) + str(row_comp.get((row_notation.get(pos_from[1])) - i)))
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) - i)) + str(row_comp.get((row_notation.get(pos_from[1])) + i)))
+
+        if pos_to not in possible_moves:
+            print("Move not valid")
+            move_to(pos_from)
+
+    # if piece is a rook
+    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'R' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'r':
+        possible_moves = []
+
+        for i in range(1, 8):
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) + i)) + pos_from[1])
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) - i)) + pos_from[1])
+            possible_moves.append(pos_from[0] + str(row_comp.get(
+                (row_notation.get(pos_from[1])) + i)))
+            possible_moves.append(pos_from[0] + str(row_comp.get(
+                (row_notation.get(pos_from[1])) - i)))
+
+        if pos_to not in possible_moves:
+            print("Move not valid")
+            move_to(pos_from)
+
+    # if piece is a queen
+    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'Q' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'q':
+        possible_moves = []
+
+        for i in range(1, 8):
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) + i)) + pos_from[1])
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) - i)) + pos_from[1])
+            possible_moves.append(pos_from[0] + str(row_comp.get(
+                (row_notation.get(pos_from[1])) + i)))
+            possible_moves.append(pos_from[0] + str(row_comp.get(
+                (row_notation.get(pos_from[1])) - i)))
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) + i)) + str(row_comp.get((row_notation.get(pos_from[1])) + i)))
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) - i)) + str(row_comp.get((row_notation.get(pos_from[1])) - i)))
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) + i)) + str(row_comp.get((row_notation.get(pos_from[1])) - i)))
+            possible_moves.append(str(col_comp.get((col_notation.get(
+                pos_from[0])) - i)) + str(row_comp.get((row_notation.get(pos_from[1])) + i)))
+
+        if pos_to not in possible_moves:
+            print("Move not valid")
+            move_to(pos_from)
+    
+    # if piece is a pawn
+    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'P':
+        possible_moves = [
+            pos_from[0] + str(row_comp.get((row_notation.get(pos_from[1])) - 1)),
+            pos_from[0] + str(row_comp.get((row_notation.get(pos_from[1])) - 2)),
+        ]
+
+        if int(pos_from[1]) != 2:
+            del possible_moves[1]
+
+        if pos_to not in possible_moves:
+            print("Move not valid")
+            move_to(pos_from)
+
+    # if piece is a pawn
+    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'p':
+        possible_moves = [
+            pos_from[0] + str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
+            pos_from[0] + str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
+        ]
+
+        if int(pos_from[1]) != 7:
+            del possible_moves[1]
+
+        if pos_to not in possible_moves:
+            print("Move not valid")
+            move_to(pos_from)
+
     # makes move
     board[row_notation.get(pos_to[1])][col_notation.get(
         pos_to[0])] = board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])]
     board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] = ' '
+
     main()
 
+
 starting_posiion()
+
+
 def main():
     j = 0
     for i in range(8, 0, -1):  # shows board
@@ -86,17 +227,5 @@ def main():
     print('    a    b    c    d    e    f    g    h')
     move_from()
 
-main()
 
-# layout of the board
-'''
-8   0 = [0, 1, 2, 3, 4, 5, 6, 7] 
-7   1 = [0, 1, 2, 3, 4, 5, 6, 7]
-6   2 = [0, 1, 2, 3, 4, 5, 6, 7]
-5   3 = [0, 1, 2, 3, 4, 5, 6, 7]
-4   4 = [0, 1, 2, 3, 4, 5, 6, 7]
-3   5 = [0, 1, 2, 3, 4, 5, 6, 7]
-2   6 = [0, 1, 2, 3, 4, 5, 6, 7]
-1   7 = [0, 1, 2, 3, 4, 5, 6, 7]
-         a  b  c  d  e  f  g  h
-'''
+main()
