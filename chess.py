@@ -1,42 +1,31 @@
-board = [[" "] * 8 for i in range(8)]  # creates board
+board = [[' '] * 8 for i in range(8)]  # creates board
 
-# chess pieces in unicode
-# not used here due to lack of unicode support from various terminals
-'''
-K = u'\u2654' # W King
-Q = u'\u2655' # W Queen
-R = u'\u2656' # W Rook
-B = u'\u2657' # W Bishop
-N = u'\u2658' # W Knight
-P = u'\u2659' # W Pawn
-k = u'\u265A' # B King
-q = u'\u265B' # B Queen
-r = u'\u265C' # B Rook
-b = u'\u265D' # B Bishop
-n = u'\u265E' # B Knight
-p = u'\u265F' # B Pawn
-'''
+# Values for row and column
+row = [1, 2, 3, 4, 5, 6, 7, 8]
+column = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
-to_chess_notation = {  # translates to chess notation
-    0: "h",
-    1: "g",
-    2: "f",
-    3: "e",
-    4: "d",
-    5: "c",
-    6: "b",
-    7: "a",
+white = True  # Side to move
+
+row_notation = {  # translates to row
+    '1': 7,
+    '2': 6,
+    '3': 5,
+    '4': 4,
+    '5': 3,
+    '6': 2,
+    '7': 1,
+    '8': 0,
 }
 
-to_comp_notation = {  # translates to computer index
-    "h": 0,
-    "g": 1,
-    "f": 2,
-    "e": 3,
-    "d": 4,
-    "c": 5,
-    "b": 6,
-    "a": 7,
+col_notation = {  # translates to column
+    "h": 7,
+    "g": 6,
+    "f": 5,
+    "e": 4,
+    "d": 3,
+    "c": 2,
+    "b": 1,
+    "a": 0,
 }
 
 
@@ -58,9 +47,42 @@ def starting_posiion():  # arranges starting position
     board[7][4] = 'K'
 
 
+def move_from():
+    pos_from = input("From: ")
+    # If square is invalid
+    if len(pos_from) != 2 or pos_from[0] not in column or int(pos_from[1]) not in row:
+        print("Input move with chess notation (i.e. a1")
+        move_from()
+    # if square has no piece
+    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == " ":
+        print("Move not valid")
+        move_from()
+    # sets square from to blank and returns piece to move
+    return pos_from
+
+
+def move_to():
+    pos_to = input("To: ")
+    # If square is invalid
+    if len(pos_to) != 2 or pos_to[0] not in column or int(pos_to[1]) not in row:
+        print("Input move with chess notation (i.e. a1")
+        move_to()
+    # if square already has a piece
+    if board[row_notation.get(pos_to[1])][col_notation.get(pos_to[0])] != " ":
+        print("Move not valid")
+        move_to()
+    return pos_to
+
+
 starting_posiion()
-for i in board:  # shows board
-    print(i)
+while 1 == 1:
+    for i in board:  # shows board
+        print(i)
+    pos_from = move_from()
+    pos_to = move_to()
+    board[row_notation.get(pos_to[1])][col_notation.get(
+        pos_to[0])] = board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])]
+    board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] = ' '
 
 # layout of the board
 '''
