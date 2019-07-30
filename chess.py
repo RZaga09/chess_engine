@@ -57,32 +57,36 @@ def move_from():
     if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == " ":
         print("Move not valid")
         move_from()
-    # sets square from to blank and returns piece to move
-    return pos_from
+
+    move_to(pos_from)
 
 
-def move_to():
+def move_to(pos_from):
     pos_to = input("To: ")
     # If square is invalid
     if len(pos_to) != 2 or pos_to[0] not in column or int(pos_to[1]) not in row:
         print("Input move with chess notation (i.e. a1")
-        move_to()
+        move_to(pos_from)
     # if square already has a piece
     if board[row_notation.get(pos_to[1])][col_notation.get(pos_to[0])] != " ":
         print("Move not valid")
-        move_to()
-    return pos_to
-
-
-starting_posiion()
-while 1 == 1:
-    for i in board:  # shows board
-        print(i)
-    pos_from = move_from()
-    pos_to = move_to()
+        move_to(pos_from)
+    # makes move
     board[row_notation.get(pos_to[1])][col_notation.get(
         pos_to[0])] = board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])]
     board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] = ' '
+    main()
+
+starting_posiion()
+def main():
+    j = 0
+    for i in range(8, 0, -1):  # shows board
+        print(str(i) + '', board[j])
+        j += 1
+    print('    a    b    c    d    e    f    g    h')
+    move_from()
+
+main()
 
 # layout of the board
 '''
