@@ -179,12 +179,14 @@ def move_to(pos_from):
         if pos_to not in possible_moves:
             print("Move not valid")
             move_to(pos_from)
-    
+
     # if piece is a pawn
     if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'P':
         possible_moves = [
-            pos_from[0] + str(row_comp.get((row_notation.get(pos_from[1])) - 1)),
-            pos_from[0] + str(row_comp.get((row_notation.get(pos_from[1])) - 2)),
+            pos_from[0] +
+            str(row_comp.get((row_notation.get(pos_from[1])) - 1)),
+            pos_from[0] +
+            str(row_comp.get((row_notation.get(pos_from[1])) - 2)),
         ]
 
         if int(pos_from[1]) != 2:
@@ -197,8 +199,10 @@ def move_to(pos_from):
     # if piece is a pawn
     if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'p':
         possible_moves = [
-            pos_from[0] + str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
-            pos_from[0] + str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
+            pos_from[0] +
+            str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
+            pos_from[0] +
+            str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
         ]
 
         if int(pos_from[1]) != 7:
