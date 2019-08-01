@@ -138,11 +138,13 @@ def move_to(pos_from):
             if i in possible_moves:
                 possible_moves.remove(i)
 
+        for i in possible_moves:
+            if board[row_notation.get(i[1])][col_notation.get(i[0])] == 'k' or board[row_notation.get(i[1])][col_notation.get(i[0])] == 'K':
+                possible_moves.remove(i)
+
         if len(possible_moves) == 0:
             print("Piece has no possible moves")
             move_from()
-
-        print(possible_moves)
 
         if pos_to not in possible_moves:
             print("Move not valid")
@@ -258,6 +260,10 @@ def move_to(pos_from):
         for i in move_add:
             if i not in possible_moves:
                 possible_moves.append(i)
+
+        for i in possible_moves:
+            if board[row_notation.get(i[1])][col_notation.get(i[0])] == 'k' or board[row_notation.get(i[1])][col_notation.get(i[0])] == 'K':
+                possible_moves.remove(i)
 
         if len(possible_moves) == 0:
             print("Piece has no possible moves")
@@ -381,6 +387,10 @@ def move_to(pos_from):
         for i in move_add:
             if i not in possible_moves:
                 possible_moves.append(i)
+
+        for i in possible_moves:
+            if board[row_notation.get(i[1])][col_notation.get(i[0])] == 'k' or board[row_notation.get(i[1])][col_notation.get(i[0])] == 'K':
+                possible_moves.remove(i)
 
         if len(possible_moves) == 0:
             print("Piece has no possible moves")
@@ -583,6 +593,8 @@ def move_to(pos_from):
         if len(possible_moves) == 0:
             print("Piece has no possible moves")
             move_from()
+        
+        print(possible_moves)
 
         if pos_to not in possible_moves:
             print("Move not valid")
@@ -627,6 +639,37 @@ def move_to(pos_from):
             if i in possible_moves:
                 possible_moves.remove(i)
 
+        for i in possible_moves:
+            check_near_king = []
+            check_near_king.append(str(col_comp.get((col_notation.get(
+                i[0])) + 1)) + i[1])
+            check_near_king.append(str(col_comp.get((col_notation.get(
+                i[0])) - 1)) + i[1])
+            check_near_king.append(i[0] + str(row_comp.get(
+                (row_notation.get(i[1])) + 1)))
+            check_near_king.append(i[0] + str(row_comp.get(
+                (row_notation.get(i[1])) - 1)))
+            check_near_king.append(str(col_comp.get((col_notation.get(
+                i[0])) + 1)) + str(row_comp.get((row_notation.get(i[1])) + 1)))
+            check_near_king.append(str(col_comp.get((col_notation.get(
+                i[0])) - 1)) + str(row_comp.get((row_notation.get(i[1])) - 1)))
+            check_near_king.append(str(col_comp.get((col_notation.get(
+                i[0])) + 1)) + str(row_comp.get((row_notation.get(i[1])) - 1)))
+            check_near_king.append(str(col_comp.get((col_notation.get(
+                i[0])) - 1)) + str(row_comp.get((row_notation.get(i[1])) + 1)))
+            temp = i
+            for m in range(4):
+                for n in check_near_king:
+                    if 'None' in n:
+                        check_near_king.remove(n)
+            for j in check_near_king:
+                if white == True:
+                    if (board[row_notation.get(j[1])][col_notation.get(j[0])]) == 'k':
+                        possible_moves.remove(temp)
+                else:
+                    if (board[row_notation.get(j[1])][col_notation.get(j[0])]) == 'K':
+                        possible_moves.remove(temp)
+
         if len(possible_moves) == 0:
             print("Piece has no possible moves")
             move_from()
@@ -660,10 +703,10 @@ def move_to(pos_from):
         capture.append(str(col_comp.get((col_notation.get(
             pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)))
 
-        if ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]).isupper == False) or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == ' '):
+        if ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]).isupper == False) or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == ' ') or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == 'k'):
             del capture[1]
 
-        if ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]).isupper == False) or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == ' '):
+        if ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]).isupper == False) or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == ' ') or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == 'k'):
             del capture[0]
 
         for i in capture:
@@ -711,10 +754,10 @@ def move_to(pos_from):
         capture.append(str(col_comp.get((col_notation.get(
             pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)))
 
-        if ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]).isupper == True) or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == ' '):
+        if ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]).isupper == True) or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == ' ') or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == 'K'):
             del capture[1]
 
-        if ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]).isupper == True) or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == ' '):
+        if ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]).isupper == True) or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == ' ') or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == 'K'):
             del capture[0]
 
         for i in capture:
@@ -742,7 +785,7 @@ def move_to(pos_from):
         pos_to[0])] = board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])]
     board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] = ' '
 
-    white = not white
+    #white = not white
 
     main()
 
