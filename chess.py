@@ -91,7 +91,7 @@ def move_to(pos_from):
     pos_to = input("To: ")
     # If square is invalid
     if len(pos_to) != 2 or pos_to[0] not in column or int(pos_to[1]) not in row:
-        print("Input move with chess notation (i.e. a1")
+        print("Input move with chess notation (i.e. a1)")
         move_to(pos_from)
     # if square already has a piece of the same side
     if board[row_notation.get(pos_to[1])][col_notation.get(pos_to[0])] != " ":
@@ -101,6 +101,7 @@ def move_to(pos_from):
 
     # if piece is a knight
     if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'N' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'n':
+        move_filter = []
         possible_moves = [
             str(col_comp.get((col_notation.get(
                 pos_from[0])) - 2)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
@@ -120,9 +121,28 @@ def move_to(pos_from):
                 pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
         ]
 
+        for j in range(1, 3):
+            for i in possible_moves:
+                if 'None' in i:
+                    move_filter.append(i)
+
+        for i in move_filter:
+            if i in possible_moves:
+                possible_moves.remove(i)
+
+        for i in possible_moves:
+            if (white == True and (board[row_notation.get(i[1])][col_notation.get(i[0])]).isupper() == True) or (white == False and (board[row_notation.get(i[1])][col_notation.get(i[0])]).isupper() == False): 
+                move_filter.append(i)
+
+        for i in move_filter:
+            if i in possible_moves:
+                possible_moves.remove(i)
+
         if len(possible_moves) == 0:
             print("Piece has no possible moves")
             move_from()
+
+        print(possible_moves)
 
         if pos_to not in possible_moves:
             print("Move not valid")
@@ -174,6 +194,32 @@ def move_to(pos_from):
             if i in possible_moves:
                 possible_moves.remove(i)
 
+        compare = move_from
+        try:
+            compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) + 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) - 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) + 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) - 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+
         for i in possible_moves:
             if i[1] > pos_from[1] and column.index(i[0]) > column.index(pos_from[0]):
                 try:
@@ -203,6 +249,11 @@ def move_to(pos_from):
                         move_add.append(compare)
                 except:
                     pass
+
+        for j in range(10):
+            for i in move_add:
+                if i not in move_filter:
+                    move_add.remove(i)
 
         for i in move_add:
             if i not in possible_moves:
@@ -264,6 +315,32 @@ def move_to(pos_from):
             if i in possible_moves:
                 possible_moves.remove(i)
 
+        compare = move_from
+        try:
+            compare = i[0] + str(int(i[1]) + 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = i[0] + str(int(i[1]) - 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) + 1)] + i[1]
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) - 1)] + i[1]
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+
         for i in possible_moves:
             if pos_from[0] == i[0]:
                 if i[1] > pos_from[1]:
@@ -295,6 +372,11 @@ def move_to(pos_from):
                             move_add.append(compare)
                     except:
                         pass
+
+        for j in range(10):
+            for i in move_add:
+                if i not in move_filter:
+                    move_add.remove(i)
 
         for i in move_add:
             if i not in possible_moves:
@@ -378,6 +460,56 @@ def move_to(pos_from):
             if i in possible_moves:
                 possible_moves.remove(i)
 
+        compare = move_from
+        try:
+            compare = i[0] + str(int(i[1]) + 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = i[0] + str(int(i[1]) - 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) + 1)] + i[1]
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) - 1)] + i[1]
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) + 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) - 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) + 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+        try:
+            compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) - 1)
+            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
+                move_add.append(compare)
+        except:
+            pass
+
         for i in possible_moves:
             if pos_from[0] == i[0]:
                 if i[1] > pos_from[1]:
@@ -439,6 +571,11 @@ def move_to(pos_from):
                     except:
                         pass
 
+        for j in range(10):
+            for i in move_add:
+                if i not in move_filter:
+                    move_add.remove(i)
+
         for i in move_add:
             if i not in possible_moves:
                 possible_moves.append(i)
@@ -451,8 +588,56 @@ def move_to(pos_from):
             print("Move not valid")
             move_to(pos_from)
 
+    #if piece is a king
+    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'K' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'k':
+        possible_moves = []
+        move_filter = []
+
+        possible_moves.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) + 1)) + pos_from[1])
+        possible_moves.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) - 1)) + pos_from[1])
+        possible_moves.append(pos_from[0] + str(row_comp.get(
+            (row_notation.get(pos_from[1])) + 1)))
+        possible_moves.append(pos_from[0] + str(row_comp.get(
+            (row_notation.get(pos_from[1])) - 1)))
+        possible_moves.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)))
+        possible_moves.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)))
+        possible_moves.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)))
+        possible_moves.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)))
+
+        for j in range(1, 3):
+            for i in possible_moves:
+                if 'None' in i:
+                    move_filter.append(i)
+
+        for i in move_filter:
+            if i in possible_moves:
+                possible_moves.remove(i)
+
+        for i in possible_moves:
+            if (white == True and (board[row_notation.get(i[1])][col_notation.get(i[0])]).isupper() == True) or (white == False and (board[row_notation.get(i[1])][col_notation.get(i[0])]).isupper() == False): 
+                move_filter.append(i)
+
+        for i in move_filter:
+            if i in possible_moves:
+                possible_moves.remove(i)
+
+        if len(possible_moves) == 0:
+            print("Piece has no possible moves")
+            move_from()
+
+        if pos_to not in possible_moves:
+            print("Move not valid")
+            move_to(pos_from)
+
     # if piece is a white pawn
     if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'P':
+        capture = []
         possible_moves = [
             pos_from[0] +
             str(row_comp.get((row_notation.get(pos_from[1])) - 1)),
@@ -460,15 +645,50 @@ def move_to(pos_from):
             str(row_comp.get((row_notation.get(pos_from[1])) - 2)),
         ]
 
-        if int(pos_from[1]) != 2:
+        if (board[row_notation.get((possible_moves[0])[1])][col_notation.get((possible_moves[0])[0])]) != ' ':
             del possible_moves[1]
+            del possible_moves[0]
+
+        if int(pos_from[1]) != 2:
+            try:
+                del possible_moves[1]
+            except:
+                pass
+
+        capture.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)))
+        capture.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)))
+
+        if ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]).isupper == False) or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == ' '):
+            del capture[1]
+
+        if ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]).isupper == False) or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == ' '):
+            del capture[0]
+
+        for i in capture:
+            possible_moves.append(i)
+
+        if len(possible_moves) == 0:
+            print("Piece has no possible moves")
+            move_from()
 
         if pos_to not in possible_moves:
             print("Move not valid")
             move_to(pos_from)
 
+        if pos_to[1] == '8':
+            while 1 == 1:
+                promote = input("Promote to: ")
+                if promote != 'Q' and promote != 'R' and promote != 'B' and promote != 'N':
+                    print('Type Q, R, B, or N')
+                else:
+                    board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] = promote
+                    break
+
     # if piece is a black pawn
     if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'p':
+        capture = []
         possible_moves = [
             pos_from[0] +
             str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
@@ -476,12 +696,46 @@ def move_to(pos_from):
             str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
         ]
 
-        if int(pos_from[1]) != 7:
+        if (board[row_notation.get((possible_moves[0])[1])][col_notation.get((possible_moves[0])[0])]) != ' ':
             del possible_moves[1]
+            del possible_moves[0]
+
+        if int(pos_from[1]) != 7:
+            try:
+                del possible_moves[1]
+            except:
+                pass
+
+        capture.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)))
+        capture.append(str(col_comp.get((col_notation.get(
+            pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)))
+
+        if ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]).isupper == True) or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == ' '):
+            del capture[1]
+
+        if ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]).isupper == True) or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == ' '):
+            del capture[0]
+
+        for i in capture:
+            possible_moves.append(i)
+
+        if len(possible_moves) == 0:
+            print("Piece has no possible moves")
+            move_from()
 
         if pos_to not in possible_moves:
             print("Move not valid")
             move_to(pos_from)
+
+        if pos_to[1] == '1':
+            while 1 == 1:
+                promote = input("Promote to: ")
+                if promote != 'q' and promote != 'r' and promote != 'b' and promote != 'n':
+                    print('Type q, r, b, or n')
+                else:
+                    board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] = promote
+                    break
 
     # makes move
     board[row_notation.get(pos_to[1])][col_notation.get(
