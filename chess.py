@@ -1,805 +1,551 @@
-board = [[' '] * 8 for i in range(8)]  # creates board
+# create board
+board = []
+for i in range(64):
+    board.append(' ')
 
-# Values for row and column
-row = [1, 2, 3, 4, 5, 6, 7, 8]
-column = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+white = True
 
-white = True  # Side to move
-
-row_notation = {  # translates to row
-    '1': 7,
-    '2': 6,
-    '3': 5,
-    '4': 4,
-    '5': 3,
-    '6': 2,
-    '7': 1,
-    '8': 0,
+arr_notation = {  # translates chess notation to array notation
+    'a8': 0,
+    'b8': 1,
+    'c8': 2,
+    'd8': 3,
+    'e8': 4,
+    'f8': 5,
+    'g8': 6,
+    'h8': 7,
+    'a7': 8,
+    'b7': 9,
+    'c7': 10,
+    'd7': 11,
+    'e7': 12,
+    'f7': 13,
+    'g7': 14,
+    'h7': 15,
+    'a6': 16,
+    'b6': 17,
+    'c6': 18,
+    'd6': 19,
+    'e6': 20,
+    'f6': 21,
+    'g6': 22,
+    'h6': 23,
+    'a5': 24,
+    'b5': 25,
+    'c5': 26,
+    'd5': 27,
+    'e5': 28,
+    'f5': 29,
+    'g5': 30,
+    'h5': 31,
+    'a4': 32,
+    'b4': 33,
+    'c4': 34,
+    'd4': 35,
+    'e4': 36,
+    'f4': 37,
+    'g4': 38,
+    'h4': 39,
+    'a3': 40,
+    'b3': 41,
+    'c3': 42,
+    'd3': 43,
+    'e3': 44,
+    'f3': 45,
+    'g3': 46,
+    'h3': 47,
+    'a2': 48,
+    'b2': 49,
+    'c2': 50,
+    'd2': 51,
+    'e2': 52,
+    'f2': 53,
+    'g2': 54,
+    'h2': 55,
+    'a1': 56,
+    'b1': 57,
+    'c1': 58,
+    'd1': 59,
+    'e1': 60,
+    'f1': 61,
+    'g1': 62,
+    'h1': 63,
 }
 
-col_notation = {  # translates to column
-    "h": 7,
-    "g": 6,
-    "f": 5,
-    "e": 4,
-    "d": 3,
-    "c": 2,
-    "b": 1,
-    "a": 0,
-}
-row_comp = {  # translates row to array position
-    7: '1',
-    6: '2',
-    5: '3',
-    4: '4',
-    3: '5',
-    2: '6',
-    1: '7',
-    0: '8',
+chess_notation = {
+    0: 'a8',
+    1: 'b8',
+    2: 'c8',
+    3: 'd8',
+    4: 'e8',
+    5: 'f8',
+    6: 'g8',
+    7: 'h8',
+    8: 'a7',
+    9: 'b7',
+    10: 'c7',
+    11: 'd7',
+    12: 'e7',
+    13: 'f7',
+    14: 'g7',
+    15: 'h7',
+    16: 'a6',
+    17: 'b6',
+    18: 'c6',
+    19: 'd6',
+    20: 'e6',
+    21: 'f6',
+    22: 'g6',
+    23: 'h6',
+    24: 'a5',
+    25: 'b5',
+    26: 'c5',
+    27: 'd5',
+    28: 'e5',
+    29: 'f5',
+    30: 'g5',
+    31: 'h5',
+    32: 'a4',
+    33: 'b4',
+    34: 'c4',
+    35: 'd4',
+    36: 'e4',
+    37: 'f4',
+    38: 'g4',
+    39: 'h4',
+    40: 'a3',
+    41: 'b3',
+    42: 'c3',
+    43: 'd3',
+    44: 'e3',
+    45: 'f3',
+    46: 'g3',
+    47: 'h3',
+    48: 'a2',
+    49: 'b2',
+    50: 'c2',
+    51: 'd2',
+    52: 'e2',
+    53: 'f2',
+    54: 'g2',
+    55: 'h2',
+    56: 'a1',
+    57: 'b1',
+    58: 'c1',
+    59: 'd1',
+    60: 'e1',
+    61: 'f1',
+    62: 'g1',
+    63: 'h1',
 }
 
-col_comp = {  # translates column to array position
-    7: 'h',
-    6: 'g',
-    5: 'f',
-    4: 'e',
-    3: 'd',
-    2: 'c',
-    1: 'b',
-    0: 'a',
-}
+# starting position
 
 
-def starting_posiion():  # arranges starting position
-    for i in range(8):  # arranges pawns
-        board[1][i] = 'p'
-        board[6][i] = 'P'
+def starting_pos():
     # black pieces
-    board[0][0] = board[0][7] = 'r'
-    board[0][1] = board[0][6] = 'n'
-    board[0][2] = board[0][5] = 'b'
-    board[0][3] = 'q'
-    board[0][4] = 'k'
+    board[0] = board[7] = 'r'
+    board[1] = board[6] = 'n'
+    board[2] = board[5] = 'b'
+    board[3] = 'q'
+    board[4] = 'k'
+    for i in range(8, 16):
+        board[i] = 'p'
     # white pieces
-    board[7][0] = board[7][7] = 'R'
-    board[7][1] = board[7][6] = 'N'
-    board[7][2] = board[7][5] = 'B'
-    board[7][3] = 'Q'
-    board[7][4] = 'K'
+    board[56] = board[63] = 'R'
+    board[57] = board[62] = 'N'
+    board[58] = board[61] = 'B'
+    board[59] = 'Q'
+    board[60] = 'K'
+    for i in range(48, 56):
+        board[i] = 'P'
 
 
-def move_from():
-    pos_from = input("From: ")
-    # If square is invalid
-    if len(pos_from) != 2 or pos_from[0] not in column or int(pos_from[1]) not in row:
-        print("Input move with chess notation (i.e. a1)")
-        move_from()
-    # if square has no piece
-    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == " ":
-        print("Move not valid")
-        move_from()
-    # if piece is of the other player
-    if (white == True and board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])].isupper() == False) or (white == False and board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])].isupper() == True): 
-        print("Not your piece")
-        move_from()
+def possible_moves():
+    moves = []
+    own_pieces = []
+    opp_pieces = []
+    has_player = []
+    has_enemy = []
+    no_piece = []
+    if white == True:
+        own_pieces = ['K', 'Q', 'B', 'R', 'N', 'P']
+        opp_pieces = ['k', 'q', 'b', 'r', 'n', 'p']
+    else:
+        own_pieces = ['k', 'q', 'b', 'r', 'n', 'p']
+        opp_pieces = ['K', 'Q', 'B', 'R', 'N', 'P']
 
-    move_to(pos_from)
+    for i in range(64):
+        if board[i] in own_pieces:
+            has_player.append(i)
+        elif board[i] in opp_pieces:
+            has_enemy.append(i)
+        else:
+            no_piece.append(i)
 
+    for i in (has_player):
+        # King
+        if board[i] == 'K' or board[i] == 'k':
+            if i - 9 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i - 9)))
+            if i - 8 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i - 8)))
+            if i - 7 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i - 7)))
+            if i - 1 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i - 1)))
+            if i + 1 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i + 1)))
+            if i + 7 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i + 7)))
+            if i + 8 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i + 8)))
+            if i + 9 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i + 9)))
 
-def move_to(pos_from):
-    global white 
-    pos_to = input("To: ")
-    # If square is invalid
-    if len(pos_to) != 2 or pos_to[0] not in column or int(pos_to[1]) not in row:
-        print("Input move with chess notation (i.e. a1)")
-        move_to(pos_from)
-    # if square already has a piece of the same side
-    if board[row_notation.get(pos_to[1])][col_notation.get(pos_to[0])] != " ":
-        if (white == True and board[row_notation.get(pos_to[1])][col_notation.get(pos_to[0])].isupper() == True) or (white == False and board[row_notation.get(pos_to[1])][col_notation.get(pos_to[0])].isupper() == False):
-            print("Own Piece")
-            move_to(pos_from)
+        # Rook
+        if board[i] == 'R' or board[i] == 'r':
+            j = i
+            while 1 == 1:
+                j += 1
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j == 7 or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j >= 63 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j -= 1
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j == 0 or j == 8 or j == 16 or j == 24 or j == 32 or j == 40 or j == 48 or j == 56 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j += 8
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j >= 56 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j -= 8
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j <= 7 or j in has_enemy or j == 'k' or j == 'K':
+                    break
 
-    # if piece is a knight
-    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'N' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'n':
-        move_filter = []
-        possible_moves = [
-            str(col_comp.get((col_notation.get(
-                pos_from[0])) - 2)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
-            str(col_comp.get((col_notation.get(
-                pos_from[0])) - 2)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)),
-            str(col_comp.get((col_notation.get(
-                pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
-            str(col_comp.get((col_notation.get(
-                pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 2)),
-            str(col_comp.get((col_notation.get(
-                pos_from[0])) + 2)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)),
-            str(col_comp.get((col_notation.get(
-                pos_from[0])) + 2)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
-            str(col_comp.get((col_notation.get(
-                pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 2)),
-            str(col_comp.get((col_notation.get(
-                pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
-        ]
+        # Bishop
+        if board[i] == 'B' or board[i] == 'b':
+            j = i
+            while 1 == 1:
+                j += 7
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j >= 56 or j == 48 or j == 40 or j == 32 or j == 24 or j == 16 or j == 8 or j == 0 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j -= 7
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if (j >= 0 and j <= 7) or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j == 63 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j += 9
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j >= 55 or j == 7 or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j -= 9
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j <= 8 or j == 16 or j == 24 or j == 32 or j == 40 or j == 48 or j == 56 or j in has_enemy or j == 'k' or j == 'K':
+                    break
 
-        for j in range(1, 3):
-            for i in possible_moves:
-                if 'None' in i:
-                    move_filter.append(i)
+        # Queen
+        if board[i] == 'Q' or board[i] == 'q':
+            j = i
+            while 1 == 1:
+                j += 7
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j >= 56 or j == 48 or j == 40 or j == 32 or j == 24 or j == 16 or j == 8 or j == 0 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j -= 7
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if (j >= 0 and j <= 7) or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j == 63 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j += 9
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j >= 55 or j == 7 or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j -= 9
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j <= 8 or j == 16 or j == 24 or j == 32 or j == 40 or j == 48 or j == 56 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j += 1
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j == 7 or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j == 63 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j -= 1
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j == 0 or j == 8 or j == 16 or j == 24 or j == 32 or j == 40 or j == 48 or j == 56 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j += 8
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j >= 56 or j in has_enemy or j == 'k' or j == 'K':
+                    break
+            j = i
+            while 1 == 1:
+                j -= 8
+                if j not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
+                else:
+                    break
+                if j <= 7 or j in has_enemy or j == 'k' or j == 'K':
+                    break
 
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        for i in possible_moves:
-            if (white == True and (board[row_notation.get(i[1])][col_notation.get(i[0])]).isupper() == True) or (white == False and (board[row_notation.get(i[1])][col_notation.get(i[0])]).isupper() == False): 
-                move_filter.append(i)
-
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        for i in possible_moves:
-            if board[row_notation.get(i[1])][col_notation.get(i[0])] == 'k' or board[row_notation.get(i[1])][col_notation.get(i[0])] == 'K':
-                possible_moves.remove(i)
-
-        if len(possible_moves) == 0:
-            print("Piece has no possible moves")
-            move_from()
-
-        if pos_to not in possible_moves:
-            print("Move not valid")
-            move_to(pos_from)
-
-    # if piece is a bishop
-    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'B' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'b':
-        possible_moves = []
-        move_filter = []
-        move_add = []
-
-        for i in range(1, 8):
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) + i)) + str(row_comp.get((row_notation.get(pos_from[1])) + i)))
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) - i)) + str(row_comp.get((row_notation.get(pos_from[1])) - i)))
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) + i)) + str(row_comp.get((row_notation.get(pos_from[1])) - i)))
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) - i)) + str(row_comp.get((row_notation.get(pos_from[1])) + i)))
-
-        for j in range(1, 3):
-            for i in possible_moves:
-                if 'None' in i:
-                    move_filter.append(i)
-
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        for i in possible_moves:
-            if board[row_notation.get(i[1])][col_notation.get(i[0])] != " ":
-                move_filter.append(i)
-                for j in possible_moves:
-                    if column.index(i[0]) > column.index(pos_from[0]) and int(i[1]) > int(pos_from[1]):
-                        if column.index(j[0]) > column.index(i[0]) and int(j[1]) > int(i[1]):
-                            move_filter.append(j)
-                    elif column.index(i[0]) < column.index(pos_from[0]) and int(i[1]) < int(pos_from[1]):
-                        if column.index(j[0]) < column.index(i[0]) and int(j[1]) < int(i[1]):
-                            move_filter.append(j)
-                    elif column.index(i[0]) > column.index(pos_from[0]) and int(i[1]) < int(pos_from[1]):
-                        if column.index(j[0]) > column.index(i[0]) and int(j[1]) <= int(i[1]):
-                            move_filter.append(j)
-                    elif column.index(i[0]) < column.index(pos_from[0]) and int(i[1]) > int(pos_from[1]):
-                        if column.index(j[0]) < column.index(i[0]) and int(j[1]) > int(i[1]):
-                            move_filter.append(j)
-
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        compare = move_from
-        try:
-            compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) + 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) - 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) + 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) - 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-
-        for i in possible_moves:
-            if i[1] > pos_from[1] and column.index(i[0]) > column.index(pos_from[0]):
-                try:
-                    compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) + 1)
-                    if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                        move_add.append(compare)
-                except:
+        # Knight
+        if board[i] == 'N' or board[i] == 'n':
+            if i != 0:
+                if i + 15 not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i + 15)))
+                else:
                     pass
-            elif i[1] > pos_from[1] and column.index(i[0]) < column.index(pos_from[0]):
-                try:
-                    compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) + 1)
-                    if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                        move_add.append(compare)
-                except:
+            if i != 63:
+                if i - 15 not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i - 15)))
+                else:
                     pass
-            elif i[1] < pos_from[1] and column.index(i[0]) > column.index(pos_from[0]):
-                try:
-                    compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) - 1)
-                    if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                        move_add.append(compare)
-                except:
+            if i != 7:
+                if i + 17 not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i + 17)))
+                else:
                     pass
-            elif i[1] < pos_from[1] and column.index(i[0]) < column.index(pos_from[0]):
-                try:
-                    compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) - 1)
-                    if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                        move_add.append(compare)
-                except:
+            if i != 56:
+                if i - 17 not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i - 17)))
+                else:
+                    pass
+            if i != 7:
+                if i + 10 not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i + 10)))
+                else:
+                    pass
+            if i != 56 and i != 57:
+                if i - 10 not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i - 10)))
+                else:
+                    pass
+            if i != 0 and i != 56 and i != 57:
+                if i + 6 not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i + 6)))
+                else:
+                    pass
+            if i != 7 and i != 63 and i != 62:
+                if i - 6 not in has_player:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i - 6)))
+                else:
                     pass
 
-        for j in range(10):
-            for i in move_add:
-                if i not in move_filter:
-                    move_add.remove(i)
-
-        for i in move_add:
-            if i not in possible_moves:
-                possible_moves.append(i)
-
-        for i in possible_moves:
-            if board[row_notation.get(i[1])][col_notation.get(i[0])] == 'k' or board[row_notation.get(i[1])][col_notation.get(i[0])] == 'K':
-                possible_moves.remove(i)
-
-        if len(possible_moves) == 0:
-            print("Piece has no possible moves")
-            move_from()
-
-        print(possible_moves)
-
-        if pos_to not in possible_moves:
-            print("Move not valid")
-            move_to(pos_from)
-
-    # if piece is a rook
-    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'R' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'r':
-        possible_moves = []
-        move_filter = []
-        move_add = []
-
-        for i in range(1, 8):
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) + i)) + pos_from[1])
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) - i)) + pos_from[1])
-            possible_moves.append(pos_from[0] + str(row_comp.get(
-                (row_notation.get(pos_from[1])) + i)))
-            possible_moves.append(pos_from[0] + str(row_comp.get(
-                (row_notation.get(pos_from[1])) - i)))
-
-        for j in range(1, 3):
-            for i in possible_moves:
-                if 'None' in i:
-                    move_filter.append(i)
-
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        for i in possible_moves:
-            if board[row_notation.get(i[1])][col_notation.get(i[0])] != " ":
-                move_filter.append(i)
-                for j in possible_moves:
-                    if i[0] == pos_from[0] and int(i[1]) > int(pos_from[1]):
-                        if int(j[1]) > int(i[1]):
-                            move_filter.append(j)
-                    elif i[0] == pos_from[0] and int(i[1]) < int(pos_from[1]):
-                        if int(j[1]) < int(i[1]):
-                            move_filter.append(j)
-                    elif column.index(i[0]) > column.index(pos_from[0]) and int(i[1]) == int(pos_from[1]):
-                        if column.index(j[0]) > column.index(i[0]):
-                            move_filter.append(j)
-                    elif column.index(i[0]) < column.index(pos_from[0]) and int(i[1]) == int(pos_from[1]):
-                        if column.index(j[0]) < column.index(i[0]):
-                            move_filter.append(j)
-
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        compare = move_from
-        try:
-            compare = i[0] + str(int(i[1]) + 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = i[0] + str(int(i[1]) - 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) + 1)] + i[1]
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) - 1)] + i[1]
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-
-        for i in possible_moves:
-            if pos_from[0] == i[0]:
-                if i[1] > pos_from[1]:
-                    try:
-                        compare = i[0] + str(int(i[1]) + 1)
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-                elif i[1] < pos_from[1]:
-                    try:
-                        compare = i[0] + str(int(i[1]) - 1)
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-            elif pos_from[1] == i[1]:
-                if column.index(i[0]) > column.index(pos_from[0]):
-                    try:
-                        compare = column[(col_notation.get(i[0]) + 1)] + i[1]
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-                elif column.index(i[0]) < column.index(pos_from[0]):
-                    try:
-                        compare = column[(col_notation.get(i[0]) - 1)] + i[1]
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-
-        for j in range(10):
-            for i in move_add:
-                if i not in move_filter:
-                    move_add.remove(i)
-
-        for i in move_add:
-            if i not in possible_moves:
-                possible_moves.append(i)
-
-        for i in possible_moves:
-            if board[row_notation.get(i[1])][col_notation.get(i[0])] == 'k' or board[row_notation.get(i[1])][col_notation.get(i[0])] == 'K':
-                possible_moves.remove(i)
-
-        if len(possible_moves) == 0:
-            print("Piece has no possible moves")
-            move_from()
-
-        if pos_to not in possible_moves:
-            print("Move not valid")
-            move_to(pos_from)
-
-    # if piece is a queen
-    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'Q' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'q':
-        possible_moves = []
-        move_filter = []
-        move_add = []
-
-        for i in range(1, 8):
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) + i)) + pos_from[1])
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) - i)) + pos_from[1])
-            possible_moves.append(pos_from[0] + str(row_comp.get(
-                (row_notation.get(pos_from[1])) + i)))
-            possible_moves.append(pos_from[0] + str(row_comp.get(
-                (row_notation.get(pos_from[1])) - i)))
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) + i)) + str(row_comp.get((row_notation.get(pos_from[1])) + i)))
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) - i)) + str(row_comp.get((row_notation.get(pos_from[1])) - i)))
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) + i)) + str(row_comp.get((row_notation.get(pos_from[1])) - i)))
-            possible_moves.append(str(col_comp.get((col_notation.get(
-                pos_from[0])) - i)) + str(row_comp.get((row_notation.get(pos_from[1])) + i)))
-
-        for j in range(1, 3):
-            for i in possible_moves:
-                if 'None' in i:
-                    move_filter.append(i)
-
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        for i in possible_moves:
-            if board[row_notation.get(i[1])][col_notation.get(i[0])] != " ": 
-                move_filter.append(i)
-
-                for j in possible_moves:
-                    if j[0] == i[0]:
-                        if int(i[1]) > int(pos_from[1]):
-                            if int(j[1]) > int(i[1]):
-                                move_filter.append(j)
-                        elif int(i[1]) < int(pos_from[1]):
-                            if int(j[1]) < int(i[1]):
-                                move_filter.append(j)
-                    elif j[1] == i[1]:
-                        if column.index(i[0]) > column.index(pos_from[0]):
-                            if column.index(j[0]) > column.index(i[0]):
-                                move_filter.append(j)
-                        elif column.index(i[0]) < column.index(pos_from[0]):
-                            if column.index(j[0]) < column.index(i[0]):
-                                move_filter.append(j)
-                    else:
-                        if column.index(i[0]) > column.index(pos_from[0]) and int(i[1]) > int(pos_from[1]):
-                            if column.index(j[0]) > column.index(i[0]) and int(j[1]) > int(i[1]):
-                                move_filter.append(j)
-                        elif column.index(i[0]) < column.index(pos_from[0]) and int(i[1]) < int(pos_from[1]):
-                            if column.index(j[0]) < column.index(i[0]) and int(j[1]) < int(i[1]):
-                                move_filter.append(j)
-                        elif column.index(i[0]) > column.index(pos_from[0]) and int(i[1]) < int(pos_from[1]):
-                            if column.index(j[0]) > column.index(i[0]) and int(j[1]) < int(i[1]):
-                                move_filter.append(j)
-                        elif column.index(i[0]) < column.index(pos_from[0]) and int(i[1]) > int(pos_from[1]):
-                            if column.index(j[0]) < column.index(i[0]) and int(j[1]) > int(i[1]):
-                                move_filter.append(j)
-
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        compare = move_from
-        try:
-            compare = i[0] + str(int(i[1]) + 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = i[0] + str(int(i[1]) - 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) + 1)] + i[1]
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) - 1)] + i[1]
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) + 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) - 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) + 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-        try:
-            compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) - 1)
-            if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                move_add.append(compare)
-        except:
-            pass
-
-        for i in possible_moves:
-            if pos_from[0] == i[0]:
-                if i[1] > pos_from[1]:
-                    try:
-                        compare = i[0] + str(int(i[1]) + 1)
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-                elif i[1] < pos_from[1]:
-                    try:
-                        compare = i[0] + str(int(i[1]) - 1)
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-            elif pos_from[1] == i[1]:
-                if column.index(i[0]) > column.index(pos_from[0]):
-                    try:
-                        compare = column[(col_notation.get(i[0]) + 1)] + i[1]
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-                elif column.index(i[0]) < column.index(pos_from[0]):
-                    try:
-                        compare = column[(col_notation.get(i[0]) - 1)] + i[1]
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
+        # White Pawn
+        if board[i] == 'P':
+            if i - 8 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i - 8)))
+                if i >= 48:
+                    if i - 16 not in has_player:
+                        moves.append(str(chess_notation.get(i)) +
+                                     str(chess_notation.get(i - 16)))
             else:
-                if i[1] > pos_from[1] and column.index(i[0]) > column.index(pos_from[0]):
-                    try:
-                        compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) + 1)
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-                elif i[1] > pos_from[1] and column.index(i[0]) < column.index(pos_from[0]):
-                    try:
-                        compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) + 1)
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-                elif i[1] < pos_from[1] and column.index(i[0]) > column.index(pos_from[0]):
-                    try:
-                        compare = column[(col_notation.get(i[0]) + 1)] + str(int(i[1]) - 1)
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-                elif i[1] < pos_from[1] and column.index(i[0]) < column.index(pos_from[0]):
-                    try:
-                        compare = column[(col_notation.get(i[0]) - 1)] + str(int(i[1]) - 1)
-                        if (white == True and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == False) or (white == False and (board[row_notation.get(compare[1])][col_notation.get(compare[0])]).isupper() == True):
-                            move_add.append(compare)
-                    except:
-                        pass
-
-        for j in range(10):
-            for i in move_add:
-                if i not in move_filter:
-                    move_add.remove(i)
-
-        for i in move_add:
-            if i not in possible_moves:
-                possible_moves.append(i)
-
-        if len(possible_moves) == 0:
-            print("Piece has no possible moves")
-            move_from()
-        
-        print(possible_moves)
-
-        if pos_to not in possible_moves:
-            print("Move not valid")
-            move_to(pos_from)
-
-    #if piece is a king
-    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'K' or board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'k':
-        possible_moves = []
-        move_filter = []
-
-        possible_moves.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) + 1)) + pos_from[1])
-        possible_moves.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) - 1)) + pos_from[1])
-        possible_moves.append(pos_from[0] + str(row_comp.get(
-            (row_notation.get(pos_from[1])) + 1)))
-        possible_moves.append(pos_from[0] + str(row_comp.get(
-            (row_notation.get(pos_from[1])) - 1)))
-        possible_moves.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)))
-        possible_moves.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)))
-        possible_moves.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)))
-        possible_moves.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)))
-
-        for j in range(1, 3):
-            for i in possible_moves:
-                if 'None' in i:
-                    move_filter.append(i)
-
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        for i in possible_moves:
-            if (white == True and (board[row_notation.get(i[1])][col_notation.get(i[0])]).isupper() == True) or (white == False and (board[row_notation.get(i[1])][col_notation.get(i[0])]).isupper() == False): 
-                move_filter.append(i)
-
-        for i in move_filter:
-            if i in possible_moves:
-                possible_moves.remove(i)
-
-        for i in possible_moves:
-            check_near_king = []
-            check_near_king.append(str(col_comp.get((col_notation.get(
-                i[0])) + 1)) + i[1])
-            check_near_king.append(str(col_comp.get((col_notation.get(
-                i[0])) - 1)) + i[1])
-            check_near_king.append(i[0] + str(row_comp.get(
-                (row_notation.get(i[1])) + 1)))
-            check_near_king.append(i[0] + str(row_comp.get(
-                (row_notation.get(i[1])) - 1)))
-            check_near_king.append(str(col_comp.get((col_notation.get(
-                i[0])) + 1)) + str(row_comp.get((row_notation.get(i[1])) + 1)))
-            check_near_king.append(str(col_comp.get((col_notation.get(
-                i[0])) - 1)) + str(row_comp.get((row_notation.get(i[1])) - 1)))
-            check_near_king.append(str(col_comp.get((col_notation.get(
-                i[0])) + 1)) + str(row_comp.get((row_notation.get(i[1])) - 1)))
-            check_near_king.append(str(col_comp.get((col_notation.get(
-                i[0])) - 1)) + str(row_comp.get((row_notation.get(i[1])) + 1)))
-            temp = i
-            for m in range(4):
-                for n in check_near_king:
-                    if 'None' in n:
-                        check_near_king.remove(n)
-            for j in check_near_king:
-                if white == True:
-                    if (board[row_notation.get(j[1])][col_notation.get(j[0])]) == 'k':
-                        possible_moves.remove(temp)
-                else:
-                    if (board[row_notation.get(j[1])][col_notation.get(j[0])]) == 'K':
-                        possible_moves.remove(temp)
-
-        if len(possible_moves) == 0:
-            print("Piece has no possible moves")
-            move_from()
-
-        if pos_to not in possible_moves:
-            print("Move not valid")
-            move_to(pos_from)
-
-    # if piece is a white pawn
-    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'P':
-        capture = []
-        possible_moves = [
-            pos_from[0] +
-            str(row_comp.get((row_notation.get(pos_from[1])) - 1)),
-            pos_from[0] +
-            str(row_comp.get((row_notation.get(pos_from[1])) - 2)),
-        ]
-
-        if (board[row_notation.get((possible_moves[0])[1])][col_notation.get((possible_moves[0])[0])]) != ' ':
-            del possible_moves[1]
-            del possible_moves[0]
-
-        if int(pos_from[1]) != 2:
-            try:
-                del possible_moves[1]
-            except:
                 pass
 
-        capture.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)))
-        capture.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) - 1)))
-
-        if ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]).isupper == False) or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == ' ') or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == 'k'):
-            del capture[1]
-
-        if ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]).isupper == False) or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == ' ') or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == 'k'):
-            del capture[0]
-
-        for i in capture:
-            possible_moves.append(i)
-
-        if len(possible_moves) == 0:
-            print("Piece has no possible moves")
-            move_from()
-
-        if pos_to not in possible_moves:
-            print("Move not valid")
-            move_to(pos_from)
-
-        if pos_to[1] == '8':
-            while 1 == 1:
-                promote = input("Promote to: ")
-                if promote != 'Q' and promote != 'R' and promote != 'B' and promote != 'N':
-                    print('Type Q, R, B, or N')
+            if i != 7 and i != 15 and i != 23 and i != 31 and i != 39 and i != 47 and i != 55 and i != 63:
+                if i - 7 in has_enemy:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i - 7)))
                 else:
-                    board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] = promote
-                    break
+                    pass
+            if i != 0 and i != 8 and i != 16 and i != 24 and i != 32 and i != 40 and i != 48 and i != 56:
+                if i - 9 in has_enemy:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i - 9)))
+                else:
+                    pass
 
-    # if piece is a black pawn
-    if board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] == 'p':
-        capture = []
-        possible_moves = [
-            pos_from[0] +
-            str(row_comp.get((row_notation.get(pos_from[1])) + 1)),
-            pos_from[0] +
-            str(row_comp.get((row_notation.get(pos_from[1])) + 2)),
-        ]
-
-        if (board[row_notation.get((possible_moves[0])[1])][col_notation.get((possible_moves[0])[0])]) != ' ':
-            del possible_moves[1]
-            del possible_moves[0]
-
-        if int(pos_from[1]) != 7:
-            try:
-                del possible_moves[1]
-            except:
+        # Black Pawn
+        if board[i] == 'p':
+            if i + 8 not in has_player:
+                moves.append(str(chess_notation.get(i)) +
+                             str(chess_notation.get(i + 8)))
+                if i <= 15:
+                    if i + 16 not in has_player:
+                        moves.append(str(chess_notation.get(i)) +
+                                     str(chess_notation.get(i + 16)))
+            else:
                 pass
-
-        capture.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) + 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)))
-        capture.append(str(col_comp.get((col_notation.get(
-            pos_from[0])) - 1)) + str(row_comp.get((row_notation.get(pos_from[1])) + 1)))
-
-        if ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]).isupper == True) or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == ' ') or ((board[row_notation.get((capture[1])[1])][col_notation.get((capture[1])[0])]) == 'K'):
-            del capture[1]
-
-        if ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]).isupper == True) or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == ' ') or ((board[row_notation.get((capture[0])[1])][col_notation.get((capture[0])[0])]) == 'K'):
-            del capture[0]
-
-        for i in capture:
-            possible_moves.append(i)
-
-        if len(possible_moves) == 0:
-            print("Piece has no possible moves")
-            move_from()
-
-        if pos_to not in possible_moves:
-            print("Move not valid")
-            move_to(pos_from)
-
-        if pos_to[1] == '1':
-            while 1 == 1:
-                promote = input("Promote to: ")
-                if promote != 'q' and promote != 'r' and promote != 'b' and promote != 'n':
-                    print('Type q, r, b, or n')
+            if i != 0 and i != 8 and i != 16 and i != 24 and i != 32 and i != 40 and i != 48 and i != 56:
+                if i + 7 in has_enemy:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i + 7)))
                 else:
-                    board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] = promote
-                    break
+                    pass
+            if i != 7 and i != 15 and i != 23 and i != 31 and i != 39 and i != 47 and i != 55 and i != 63:
+                if i + 9 in has_enemy:
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(i + 9)))
+                else:
+                    pass
 
-    # makes move
-    board[row_notation.get(pos_to[1])][col_notation.get(
-        pos_to[0])] = board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])]
-    board[row_notation.get(pos_from[1])][col_notation.get(pos_from[0])] = ' '
+    for i in range(30):
+        for i in moves:
+            if 'None' in i:
+                moves.remove(i)
 
-    #white = not white
+    print(moves)
 
-    main()
+# shows board on command line
 
 
-starting_posiion()
+def show():
+    row8 = []
+    row7 = []
+    row6 = []
+    row5 = []
+    row4 = []
+    row3 = []
+    row2 = []
+    row1 = []
+    for i in range(64):
+        if i < 8:
+            row8.append(board[i])
+        elif i < 16:
+            row7.append(board[i])
+        elif i < 24:
+            row6.append(board[i])
+        elif i < 32:
+            row5.append(board[i])
+        elif i < 40:
+            row4.append(board[i])
+        elif i < 48:
+            row3.append(board[i])
+        elif i < 56:
+            row2.append(board[i])
+        elif i < 64:
+            row1.append(board[i])
+
+    print(row8)
+    print(row7)
+    print(row6)
+    print(row5)
+    print(row4)
+    print(row3)
+    print(row2)
+    print(row1)
+
+
+starting_pos()
 
 
 def main():
-    j = 0
-    for i in range(8, 0, -1):  # shows board
-        print(str(i) + '', board[j])
-        j += 1
-    print('    a    b    c    d    e    f    g    h')
-    move_from()
+    show()
+    possible_moves()
 
 
 main()
+
+'''
+Layout of board
+8   [ 0,  1,  2,  3,  4,  5,  6,  7]
+7   [ 8,  9, 10, 11, 12, 13, 14, 15]
+6   [16, 17, 18, 19, 20, 21, 22, 23]
+5   [24, 25, 26, 27, 28, 29, 30, 31]
+4   [32, 33, 34, 35, 36, 37, 38, 39]
+3   [40, 41, 42, 43, 44, 45, 46, 47]
+2   [48, 49, 50, 51, 52, 53, 54, 55]
+1   [56, 57, 58, 59, 60, 61, 62, 63]
+      a   b   c   d   e   f   g   h
+'''
