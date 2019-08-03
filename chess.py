@@ -4,6 +4,8 @@ for i in range(64):
     board.append(' ')
 
 white = True
+check = False
+moves = []
 
 arr_notation = {  # translates chess notation to array notation
     'a8': 0,
@@ -162,12 +164,17 @@ def starting_pos():
 
 
 def possible_moves():
+    global white
+    global check
+    global moves
     moves = []
     own_pieces = []
     opp_pieces = []
     has_player = []
     has_enemy = []
     no_piece = []
+    white_king_pos = 0
+    black_king_pos = 0
     if white == True:
         own_pieces = ['K', 'Q', 'B', 'R', 'N', 'P']
         opp_pieces = ['k', 'q', 'b', 'r', 'n', 'p']
@@ -183,9 +190,20 @@ def possible_moves():
         else:
             no_piece.append(i)
 
+    for i in (has_enemy):
+        if board[i] == 'K' or board[i] == 'k':
+            if board[i] == 'k':
+                black_king_pos = i
+            elif board[i] == 'K':
+                white_king_pos = i
+
     for i in (has_player):
         # King
         if board[i] == 'K' or board[i] == 'k':
+            if board[i] == 'k':
+                black_king_pos = i
+            elif board[i] == 'K':
+                white_king_pos = i
             if i - 9 not in has_player:
                 moves.append(str(chess_notation.get(i)) +
                              str(chess_notation.get(i - 9)))
@@ -217,8 +235,7 @@ def possible_moves():
             while 1 == 1:
                 j += 1
                 if j not in has_player:
-                    moves.append(str(chess_notation.get(i)) +
-                                 str(chess_notation.get(j)))
+                    moves.append(str(chess_notation.get(i)) + str(chess_notation.get(j)))
                 else:
                     break
                 if j == 7 or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j >= 63 or j in has_enemy or j == 'k' or j == 'K':
@@ -227,8 +244,7 @@ def possible_moves():
             while 1 == 1:
                 j -= 1
                 if j not in has_player:
-                    moves.append(str(chess_notation.get(i)) +
-                                 str(chess_notation.get(j)))
+                    moves.append(str(chess_notation.get(i)) + str(chess_notation.get(j)))
                 else:
                     break
                 if j == 0 or j == 8 or j == 16 or j == 24 or j == 32 or j == 40 or j == 48 or j == 56 or j in has_enemy or j == 'k' or j == 'K':
@@ -237,8 +253,7 @@ def possible_moves():
             while 1 == 1:
                 j += 8
                 if j not in has_player:
-                    moves.append(str(chess_notation.get(i)) +
-                                 str(chess_notation.get(j)))
+                    moves.append(str(chess_notation.get(i)) + str(chess_notation.get(j)))
                 else:
                     break
                 if j >= 56 or j in has_enemy or j == 'k' or j == 'K':
@@ -247,8 +262,7 @@ def possible_moves():
             while 1 == 1:
                 j -= 8
                 if j not in has_player:
-                    moves.append(str(chess_notation.get(i)) +
-                                 str(chess_notation.get(j)))
+                    moves.append(str(chess_notation.get(i)) + str(chess_notation.get(j)))
                 else:
                     break
                 if j <= 7 or j in has_enemy or j == 'k' or j == 'K':
@@ -406,7 +420,7 @@ def possible_moves():
                                  str(chess_notation.get(i - 17)))
                 else:
                     pass
-            if i != 7:
+            if i != 7 and i != 6:
                 if i + 10 not in has_player:
                     moves.append(str(chess_notation.get(i)) +
                                  str(chess_notation.get(i + 10)))
@@ -487,6 +501,14 @@ def possible_moves():
 
     print(moves)
 
+    if white == True:
+        for i in moves:
+            if arr_notation.get(str(i[2:4])) == black_king_pos:
+                check = True
+                print("CHECK")
+                break 
+    #ADD CHECK FUNCTION LATER
+
 # shows board on command line
 
 
@@ -533,6 +555,13 @@ starting_pos()
 def main():
     show()
     possible_moves()
+    move = input('Move: ')
+    for i in moves:
+        if move == i:
+            board[arr_notation.get(str(i[2:4]))] = board[arr_notation.get(str(i[0:2]))]
+            board[arr_notation.get(str(i[0:2]))] = ' '
+            break
+    main()
 
 
 main()
