@@ -4,7 +4,10 @@ for i in range(64):
     board.append(' ')
 
 white = True
-check = False
+white_in_check = False
+black_in_check = False
+white_king_pos = 0
+black_king_pos = 0
 moves = []
 
 arr_notation = {  # translates chess notation to array notation
@@ -162,10 +165,310 @@ def starting_pos():
     for i in range(48, 56):
         board[i] = 'P'
 
+# check if white is in check
+
+
+def white_check():
+    global white_king_pos
+    global white_in_check
+    white_pieces = ['K', 'Q', 'B', 'R', 'N', 'P']
+    black_pieces = ['k', 'q', 'b', 'r', 'n', 'p']
+    for i in range(64):
+        if board[i] == 'K':
+            white_king_pos = i
+            break
+    if white_king_pos - 7 == 'p' and white_king_pos != 7 and white_king_pos != 15 and white_king_pos != 23 and white_king_pos != 31 and white_king_pos != 39 and white_king_pos != 47 and white_king_pos != 55 and white_king_pos != 63:
+        white_in_check = True
+
+    if white_king_pos - 9 == 'p' and white_king_pos != 0 and white_king_pos != 8 and white_king_pos != 16 and white_king_pos != 24 and white_king_pos != 32 and white_king_pos != 40 and white_king_pos != 48 and white_king_pos != 56:
+        white_in_check = True
+
+    if white_king_pos != 0:
+        try:
+            if board[white_king_pos + 15] == 'n':
+                white_in_check = True
+        except IndexError:
+            pass
+    if white_king_pos != 63:
+        try:
+            if board[white_king_pos - 15] == 'n' and (white_king_pos - 15) >= 0:
+                white_in_check = True
+        except IndexError:
+            pass
+    if white_king_pos != 7:
+        try:
+            if board[white_king_pos + 17] == 'n':
+                white_in_check = True
+        except IndexError:
+            pass
+    if white_king_pos != 56:
+        try:
+            if board[white_king_pos - 17] == 'n' and (white_king_pos - 17) >= 0:
+                white_in_check = True
+        except IndexError:
+            pass
+    if white_king_pos != 7 and white_king_pos != 6:
+        try:
+            if board[white_king_pos + 10] == 'n':
+                white_in_check = True
+        except IndexError:
+            pass
+    if white_king_pos != 56 and white_king_pos != 57:
+        try:
+            if board[white_king_pos - 10] == 'n' and (white_king_pos - 10) >= 0:
+                white_in_check = True
+        except IndexError:
+            pass
+    if white_king_pos != 0 and white_king_pos != 56 and white_king_pos != 57:
+        try:
+            if board[white_king_pos + 6] == 'n':
+                white_in_check = True
+        except IndexError:
+            pass
+    if white_king_pos != 7 and white_king_pos != 63 and white_king_pos != 62:
+        try:
+            if board[white_king_pos - 6] == 'n' and (white_king_pos - 6) >= 0:
+                white_in_check = True
+        except IndexError:
+            pass
+
+    if white_in_check == False:
+        i = white_king_pos
+        while 1 == 1:
+            i += 9
+            if i > 63:
+                break
+            if board[i] == 'q' or board[i] == 'b':
+                white_in_check = True
+                break
+            elif i >= 56 or i == 7 or i == 15 or i == 23 or i == 31 or i == 39 or i == 47 or i == 55 or i in black_pieces or i in white_pieces:
+                break
+        i = white_king_pos
+        while 1 == 1:
+            i += 8
+            if i > 63:
+                break
+            if board[i] == 'q' or board[i] == 'r':
+                white_in_check = True
+                break
+            elif i >= 56 or i in black_pieces or i in white_pieces:
+                break
+        i = white_king_pos
+        while 1 == 1:
+            i += 7
+            if i > 63:
+                break
+            if board[i] == 'q' or board[i] == 'b':
+                white_in_check = True
+                break
+            elif i >= 56 or i == 0 or i == 8 or i == 16 or i == 24 or i == 32 or i == 40 or i == 48 or i in black_pieces or i in white_pieces:
+                break
+        i = white_king_pos
+        while 1 == 1:
+            i += 1
+            if i > 63:
+                break
+            if board[i] == 'q' or board[i] == 'r':
+                white_in_check = True
+                break
+            elif i == 7 or i == 15 or i == 23 or i == 31 or i == 39 or i == 47 or i == 55 or i == 63 or i in black_pieces or i in white_pieces:
+                break
+
+        i = white_king_pos
+        while 1 == 1:
+            i -= 9
+            if i < 0:
+                break
+            if board[i] == 'q' or board[i] == 'b':
+                white_in_check = True
+                break
+            elif i <= 7 or i == 0 or i == 8 or i == 16 or i == 24 or i == 32 or i == 40 or i == 48 or i == 56 or i in black_pieces or i in white_pieces:
+                break
+        i = white_king_pos
+        while 1 == 1:
+            i -= 8
+            if i < 0:
+                break
+            if board[i] == 'q' or board[i] == 'r':
+                white_in_check = True
+                break
+            elif i <= 7 or i in black_pieces or i in white_pieces:
+                break
+        i = white_king_pos
+        while 1 == 1:
+            i -= 7
+            if i < 0:
+                break
+            if board[i] == 'q' or board[i] == 'b':
+                white_in_check = True
+                break
+            elif i <= 7 or i == 15 or i == 23 or i == 31 or i == 39 or i == 47 or i == 55 or i == 63 or i in black_pieces or i in white_pieces:
+                break
+        i = white_king_pos
+        while 1 == 1:
+            i -= 1
+            if i < 0:
+                break
+            if board[i] == 'q' or board[i] == 'r':
+                white_in_check = True
+                break
+            elif i == 0 or i == 8 or i == 16 or i == 24 or i == 32 or i == 40 or i == 48 or i == 56 or i in black_pieces or i in white_pieces:
+                break
+
+# check if black is in check
+
+
+def black_check():
+    global black_king_pos
+    global black_in_check
+    white_pieces = ['K', 'Q', 'B', 'R', 'N', 'P']
+    black_pieces = ['k', 'q', 'b', 'r', 'n', 'p']
+    for i in range(64):
+        if board[i] == 'k':
+            black_king_pos = i
+            break
+
+    if black_king_pos + 7 == 'P' and black_king_pos != 0 and black_king_pos != 8 and black_king_pos != 16 and black_king_pos != 24 and black_king_pos != 32 and black_king_pos != 40 and black_king_pos != 48 and black_king_pos != 56:
+        black_in_check = True
+
+    if black_king_pos + 9 == 'P' and black_king_pos != 7 and black_king_pos != 15 and black_king_pos != 23 and black_king_pos != 31 and black_king_pos != 39 and black_king_pos != 47 and black_king_pos != 55 and black_king_pos != 63:
+        black_in_check = True
+
+    if black_king_pos != 0:
+        try:
+            if board[black_king_pos + 15] == 'N':
+                black_in_check = True
+        except IndexError:
+            pass
+    if black_king_pos != 63:
+        try:
+            if board[black_king_pos - 15] == 'N' and (black_king_pos - 15) >= 0:
+                black_in_check = True
+        except IndexError:
+            pass
+    if black_king_pos != 7:
+        try:
+            if board[black_king_pos + 17] == 'N':
+                black_in_check = True
+        except IndexError:
+            pass
+    if black_king_pos != 56:
+        try:
+            if board[black_king_pos - 17] == 'N' and (black_king_pos - 17) >= 0:
+                black_in_check = True
+        except IndexError:
+            pass
+    if black_king_pos != 7 and black_king_pos != 6:
+        try:
+            if board[black_king_pos + 10] == 'N':
+                black_in_check = True
+        except IndexError:
+            pass
+    if black_king_pos != 56 and black_king_pos != 57:
+        try:
+            if board[black_king_pos - 10] == 'N' and (black_king_pos - 10) >= 0:
+                black_in_check = True
+        except IndexError:
+            pass
+    if black_king_pos != 0 and black_king_pos != 56 and black_king_pos != 57:
+        try:
+            if board[black_king_pos + 6] == 'N':
+                black_in_check = True
+        except IndexError:
+            pass
+    if black_king_pos != 7 and black_king_pos != 63 and black_king_pos != 62:
+        try:
+            if board[black_king_pos - 6] == 'N' and (black_king_pos - 6) >= 0:
+                black_in_check = True
+        except IndexError:
+            pass
+
+    if black_in_check == False:
+        i = black_king_pos
+        while 1 == 1:
+            i += 9
+            if i > 63:
+                break
+            if board[i] == 'Q' or board[i] == 'B':
+                black_in_check = True
+                break
+            elif i >= 56 or i == 7 or i == 15 or i == 23 or i == 31 or i == 39 or i == 47 or i == 55 or i in black_pieces or i in white_pieces:
+                break
+        i = black_king_pos
+        while 1 == 1:
+            i += 8
+            if i > 63:
+                break
+            if board[i] == 'Q' or board[i] == 'R':
+                black_in_check = True
+                break
+            elif i >= 56 or i in black_pieces or i in white_pieces:
+                break
+        i = black_king_pos
+        while 1 == 1:
+            i += 7
+            if i > 63:
+                break
+            if board[i] == 'Q' or board[i] == 'B':
+                black_in_check = True
+                break
+            elif i >= 56 or i == 0 or i == 8 or i == 16 or i == 24 or i == 32 or i == 40 or i == 48 or i in black_pieces or i in white_pieces:
+                break
+        i = black_king_pos
+        while 1 == 1:
+            i += 1
+            if i > 63:
+                break
+            if board[i] == 'Q' or board[i] == 'R':
+                black_in_check = True
+                break
+            elif i == 7 or i == 15 or i == 23 or i == 31 or i == 39 or i == 47 or i == 55 or i == 63 or i in black_pieces or i in white_pieces:
+                break
+
+        i = black_king_pos
+        while 1 == 1:
+            i -= 9
+            if i < 0:
+                break
+            if board[i] == 'Q' or board[i] == 'B':
+                black_in_check = True
+                break
+            elif i <= 7 or i == 0 or i == 8 or i == 16 or i == 24 or i == 32 or i == 40 or i == 48 or i == 56 or i in black_pieces or i in white_pieces:
+                break
+        i = black_king_pos
+        while 1 == 1:
+            i -= 8
+            if i < 0:
+                break
+            if board[i] == 'Q' or board[i] == 'R':
+                black_in_check = True
+                break
+            elif i <= 7 or i in black_pieces or i in white_pieces:
+                break
+        i = black_king_pos
+        while 1 == 1:
+            i -= 7
+            if i < 0:
+                break
+            if board[i] == 'Q' or board[i] == 'B':
+                black_in_check = True
+                break
+            elif i <= 7 or i == 15 or i == 23 or i == 31 or i == 39 or i == 47 or i == 55 or i == 63 or i in black_pieces or i in white_pieces:
+                break
+        i = black_king_pos
+        while 1 == 1:
+            i -= 1
+            if i < 0:
+                break
+            if board[i] == 'Q' or board[i] == 'R':
+                black_in_check = True
+                break
+            elif i == 0 or i == 8 or i == 16 or i == 24 or i == 32 or i == 40 or i == 48 or i == 56 or i in black_pieces or i in white_pieces:
+                break
+
 
 def possible_moves():
     global white
-    global check
     global moves
     moves = []
     own_pieces = []
@@ -173,8 +476,6 @@ def possible_moves():
     has_player = []
     has_enemy = []
     no_piece = []
-    white_king_pos = 0
-    black_king_pos = 0
     if white == True:
         own_pieces = ['K', 'Q', 'B', 'R', 'N', 'P']
         opp_pieces = ['k', 'q', 'b', 'r', 'n', 'p']
@@ -190,20 +491,9 @@ def possible_moves():
         else:
             no_piece.append(i)
 
-    for i in (has_enemy):
-        if board[i] == 'K' or board[i] == 'k':
-            if board[i] == 'k':
-                black_king_pos = i
-            elif board[i] == 'K':
-                white_king_pos = i
-
     for i in (has_player):
         # King
         if board[i] == 'K' or board[i] == 'k':
-            if board[i] == 'k':
-                black_king_pos = i
-            elif board[i] == 'K':
-                white_king_pos = i
             if i - 9 not in has_player:
                 moves.append(str(chess_notation.get(i)) +
                              str(chess_notation.get(i - 9)))
@@ -235,7 +525,8 @@ def possible_moves():
             while 1 == 1:
                 j += 1
                 if j not in has_player:
-                    moves.append(str(chess_notation.get(i)) + str(chess_notation.get(j)))
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
                 else:
                     break
                 if j == 7 or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j >= 63 or j in has_enemy or j == 'k' or j == 'K':
@@ -244,7 +535,8 @@ def possible_moves():
             while 1 == 1:
                 j -= 1
                 if j not in has_player:
-                    moves.append(str(chess_notation.get(i)) + str(chess_notation.get(j)))
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
                 else:
                     break
                 if j == 0 or j == 8 or j == 16 or j == 24 or j == 32 or j == 40 or j == 48 or j == 56 or j in has_enemy or j == 'k' or j == 'K':
@@ -253,7 +545,8 @@ def possible_moves():
             while 1 == 1:
                 j += 8
                 if j not in has_player:
-                    moves.append(str(chess_notation.get(i)) + str(chess_notation.get(j)))
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
                 else:
                     break
                 if j >= 56 or j in has_enemy or j == 'k' or j == 'K':
@@ -262,7 +555,8 @@ def possible_moves():
             while 1 == 1:
                 j -= 8
                 if j not in has_player:
-                    moves.append(str(chess_notation.get(i)) + str(chess_notation.get(j)))
+                    moves.append(str(chess_notation.get(i)) +
+                                 str(chess_notation.get(j)))
                 else:
                     break
                 if j <= 7 or j in has_enemy or j == 'k' or j == 'K':
@@ -501,13 +795,6 @@ def possible_moves():
 
     print(moves)
 
-    if white == True:
-        for i in moves:
-            if arr_notation.get(str(i[2:4])) == black_king_pos:
-                check = True
-                print("CHECK")
-                break 
-    #ADD CHECK FUNCTION LATER
 
 # shows board on command line
 
@@ -553,14 +840,25 @@ starting_pos()
 
 
 def main():
+    global white_in_check
+    global black_in_check
+    white_check()
+    black_check()
     show()
     possible_moves()
+    if white_in_check == True:
+        print("WHITE IN CHECK")
+    if black_in_check == True:
+        print("BLACK IN CHECK")
     move = input('Move: ')
     for i in moves:
         if move == i:
-            board[arr_notation.get(str(i[2:4]))] = board[arr_notation.get(str(i[0:2]))]
+            board[arr_notation.get(str(i[2:4]))
+                  ] = board[arr_notation.get(str(i[0:2]))]
             board[arr_notation.get(str(i[0:2]))] = ' '
             break
+    white_in_check = False
+    black_in_check = False
     main()
 
 
