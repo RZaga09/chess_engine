@@ -1,5 +1,7 @@
 # create board
 board = []
+test = []
+inter = []
 for i in range(64):
     board.append(' ')
 
@@ -539,7 +541,7 @@ def possible_moves():
                                  str(chess_notation.get(j)))
                 else:
                     break
-                if j == 0 or j == 8 or j == 16 or j == 24 or j == 32 or j == 40 or j == 48 or j == 56 or j in has_enemy or j == 'k' or j == 'K':
+                if j <= 0 or j == 8 or j == 16 or j == 24 or j == 32 or j == 40 or j == 48 or j == 56 or j in has_enemy or j == 'k' or j == 'K':
                     break
             j = i
             while 1 == 1:
@@ -582,7 +584,7 @@ def possible_moves():
                                  str(chess_notation.get(j)))
                 else:
                     break
-                if (j >= 0 and j <= 7) or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j == 63 or j in has_enemy or j == 'k' or j == 'K':
+                if j <= 7 or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j == 63 or j in has_enemy or j == 'k' or j == 'K':
                     break
             j = i
             while 1 == 1:
@@ -625,7 +627,7 @@ def possible_moves():
                                  str(chess_notation.get(j)))
                 else:
                     break
-                if (j >= 0 and j <= 7) or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j == 63 or j in has_enemy or j == 'k' or j == 'K':
+                if j <= 7 or j == 15 or j == 23 or j == 31 or j == 39 or j == 47 or j == 55 or j == 63 or j in has_enemy or j == 'k' or j == 'K':
                     break
             j = i
             while 1 == 1:
@@ -795,6 +797,34 @@ def possible_moves():
 
     print(moves)
 
+def checkmate():
+    global white
+    global moves
+    global white_in_check
+    global black_in_check
+    global test
+    global board
+    if white == True:
+        for i in moves:
+            test = board.copy()
+            test[arr_notation.get(str(i[2:4]))] = test[arr_notation.get(str(i[0:2]))]
+            test[arr_notation.get(str(i[0:2]))] = ' '
+            white_check()
+            if white_in_check == False:
+                break
+        if white_in_check == True:
+            print("CHECKMATE - BLACK WINS")
+    else:
+        for i in moves:
+            test = board.copy()
+            test[arr_notation.get(str(i[2:4]))] = test[arr_notation.get(str(i[0:2]))]
+            test[arr_notation.get(str(i[0:2]))] = ' '
+            black_check()
+            if black_in_check == False:
+                break
+        if black_in_check == True:
+            print("CHECKMATE - WHITE WINS")
+
 
 # shows board on command line
 
@@ -842,6 +872,9 @@ starting_pos()
 def main():
     global white_in_check
     global black_in_check
+    global white
+    global board
+    checkmate()
     white_check()
     black_check()
     show()
@@ -859,6 +892,10 @@ def main():
             break
     white_in_check = False
     black_in_check = False
+    if white == True:
+        white = False
+    else:
+        white = True
     main()
 
 
